@@ -12,6 +12,7 @@ module.exports = {
     parallel: 1,
     worldParameters: {
       baseUrl: 'https://the-internet.herokuapp.com/login',
+      apiBaseUrl: 'https://reqres.in',
     },
   },
 };

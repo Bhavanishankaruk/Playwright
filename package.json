@@ -7,7 +7,8 @@
     "test": "playwright test",
     "test:bdd": "cucumber-js",
     "test:bdd:headed": "HEADLESS=false cucumber-js",
-    "test:bdd:login": "cucumber-js --tags '@login'"
+    "test:bdd:login": "cucumber-js --tags '@login'",
+    "test:bdd:api": "cucumber-js --tags '@api'"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^13.2.1",
     "@playwright/test": "^1.62.1",
-    "@types/node": "^26.2.0"
+    "@types/node": "^26.2.0",
+    "dotenv": "^17.4.2"
   }
 }

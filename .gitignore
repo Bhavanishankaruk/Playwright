@@ -6,3 +6,14 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Local secrets - never commit these files
+.env
+.env.*
+!.env.example
+
+# Cucumber generated reports
+reports/*.html
+
+# Keep the reports directory
+!reports/.gitkeep
