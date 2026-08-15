@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:bdd": "cucumber-js",
+    "test:bdd:headed": "HEADLESS=false cucumber-js",
+    "test:bdd:login": "cucumber-js --tags '@login'"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@cucumber/cucumber": "^13.2.1",
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.2.0"
   }
