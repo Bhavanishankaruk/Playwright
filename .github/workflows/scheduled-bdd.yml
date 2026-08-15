@@ -1,17 +1,22 @@
-name: Scheduled Playwright BDD Tests
+name: Playwright Web and API BDD Tests
 
 on:
-  # Run manually from the GitHub Actions page
   workflow_dispatch:
 
-  # Run automatically every day at 9:15 AM London time
-  # schedule:
-   # - cron: "15 9 * * *"
-    #  timezone: "Europe/London"
+  push:
+    branches: [master]
+
+  pull_request:
+    branches: [master]
+
+  # Run automatically every day at 9:15 AM London time.
+  schedule:
+    - cron: "15 9 * * *"
+      timezone: "Europe/London"
 
 jobs:
-  scheduled-tests:
-    name: Cucumber Login E2E Tests
+  web-bdd-tests:
+    name: Web BDD Tests
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -35,13 +40,59 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run Cucumber BDD tests
-        run: npm run test:bdd
+      - name: Run web BDD tests
+        run: npm run test:bdd:login
 
-      - name: Upload Cucumber report
+      - name: Upload web Cucumber report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v5
         with:
-          name: scheduled-cucumber-report
+          name: web-cucumber-report
+          path: reports/
+          retention-days: 30
+
+  api-bdd-tests:
+    name: ReqRes API BDD Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    # Secrets are unavailable to pull requests opened from forks.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+
+    env:
+      CI: true
+      REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install project dependencies
+        run: npm ci
+
+      - name: Verify ReqRes API secret exists
+        shell: bash
+        run: |
+          if [ -z "$REQRES_API_KEY" ]; then
+            echo "::error::Repository secret REQRES_API_KEY is not configured"
+            exit 1
+          fi
+
+      - name: Run ReqRes API BDD tests
+        run: npm run test:bdd:api
+
+      - name: Upload API Cucumber report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: api-cucumber-report
           path: reports/
           retention-days: 30
