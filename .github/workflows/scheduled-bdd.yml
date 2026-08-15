@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
 
   # Run automatically every day at 9:15 AM London time
-  schedule:
-    - cron: "15 9 * * *"
-      timezone: "Europe/London"
+  # schedule:
+   # - cron: "15 9 * * *"
+    #  timezone: "Europe/London"
 
 jobs:
   scheduled-tests:
