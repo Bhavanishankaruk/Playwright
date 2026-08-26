@@ -16,4 +16,4 @@ Feature: Login to The Internet application
     Examples:
       | username | password             | outcome | message                           |
       | tomsmith | SuperSecretPassword! | success | You logged into a secure area!    |
-      | dummy    | dummy                | failure | Your username is invalid!         |
+      | dummy1    | dummy1                | failure | Your username is invalid!         |
